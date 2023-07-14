@@ -59,7 +59,6 @@ export class Coin98Wallet implements AdapterPlugin {
         network: this._network,
       });
       if (!accountInfo) throw `${Coin98WalletName} Address Info Error`;
-      console.log("accountInfo", accountInfo);
       return accountInfo;
     } catch (error: any) {
       throw error;
@@ -68,7 +67,6 @@ export class Coin98Wallet implements AdapterPlugin {
 
   async account(): Promise<AccountInfo> {
     const response = await this.provider?.account();
-    console.log("response:....... ", response);
     if (!response) throw `${Coin98WalletName} Account Error`;
     return response;
   }
@@ -76,7 +74,6 @@ export class Coin98Wallet implements AdapterPlugin {
   async disconnect(): Promise<void> {
     try {
       await this.provider?.disconnect();
-      console.log("disconnect done");
     } catch (error: any) {
       throw error;
     }
@@ -94,7 +91,6 @@ export class Coin98Wallet implements AdapterPlugin {
       if ((response as AptosWalletErrorResult).code) {
         throw new Error((response as AptosWalletErrorResult).message);
       }
-      console.log("response Submit Transaction", response);
       return response as { hash: Types.HexEncodedBytes };
     } catch (error: any) {
       const errMsg = error.message;
@@ -114,7 +110,6 @@ export class Coin98Wallet implements AdapterPlugin {
       if (!response) {
         throw new Error("No response") as AptosWalletErrorResult;
       }
-      console.log("response SigTransaction", response);
       return response;
     } catch (error: any) {
       const errMsg = error.message;
@@ -128,7 +123,6 @@ export class Coin98Wallet implements AdapterPlugin {
         `${Coin98WalletName} Invalid signMessage Payload`;
       }
       const response = await this.provider?.signMessage(message);
-      console.log("response SigMessage", response);
       if (response) {
         return response;
       } else {
@@ -143,7 +137,6 @@ export class Coin98Wallet implements AdapterPlugin {
   async network(): Promise<NetworkInfo> {
     try {
       const response = await this.provider?.network();
-      console.log("response network", response);
       if (!response) throw `${Coin98WalletName} Network Error`;
       return {
         name: response.name.toLocaleLowerCase() as NetworkName,
